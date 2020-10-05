@@ -1,58 +1,97 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div class="paymentWrapper">
+    <div class="number">
+    <div class="paied">
+     +已缴{{paiedNumber}}户
+    </div>
+    <div class="unpaied">
+      -未缴{{unpaiedNumber}}户
+    </div>
+    </div>
+    <div class="progressBar">
+      <div class="paiedBar" ref="paied">{{paiedPercent}}%</div>
+      <div class="unpaiedBar" ref="unpaied">{{unpaiedPercent}}%</div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  created() {
+    this.$nextTick(() => {this.operatewidth()
+    })
+    },
+  data(){
+  return{
+    paiedNumber:679,
+    unpaiedNumber:846,
+    paiedPercent:35,
+    unpaiedPercent:65
+  }
+},
   props: {
     msg: String
+  },
+  methods:{
+
+    operatewidth(){
+      let paied=this.$refs.paied.style
+      let unpaid=this.$refs.unpaied.style
+      console.log(paied.width)
+      paied.width=this.paiedPercent+'%';
+      console.log(paied.width)
+      unpaid.width=this.unpaiedPercent+'%';
+      console.log(unpaid.width)
+    }
+  },
+  computed:{
+
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+<style  scoped>
+.paymentWrapper{
+  font-size: 41px;
+  background-color: #f1f1f1;
+  width: 600px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.number{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+.number > .paied{
+  padding-left: 55px;
+  color: #40b884;
 }
-a {
-  color: #42b983;
+.number > .unpaied{
+  color: #fe0000;
+  padding-right: 55px;
+}
+.progressBar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 550px;
+}
+.progressBar > .paiedBar{
+  margin-left: 25px;
+  padding-left: 30px;
+  background-color: #40b884;
+  color: white;
+  width: 45%;
+}
+.progressBar > .unpaiedBar{
+  margin-right: 25px;
+  padding-right: 30px;
+  background-color: #fe0000;
+  color: white;
+  width: 55%;
+}
+.progressBar > .unpaiedBar::before{
+  content: '';
+  width: 100%;
+  max-height: 500px;
+  color: white;
 }
 </style>
